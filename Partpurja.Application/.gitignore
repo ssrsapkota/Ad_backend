@@ -1,0 +1,36 @@
+# Build folders
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Rider / VSCode
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# NuGet
+packages/
+*.nupkg
+
+# Entity Framework
+Migrations/
+
+# Publish output
+publish/
+
+# Temporary files
+*.tmp
+*.cache
