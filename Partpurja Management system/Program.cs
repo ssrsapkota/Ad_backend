@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Partpurja.Application.Interface.IRepository;
+using Partpurja.Application.Interface.IServices;
 using Partpurja.Infrastructure.Persistence;
+using Partpurja.Infrastructure.Repository;
+using Partpurja.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +13,10 @@ builder.Services.AddControllers();
 // Database connection
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Register Vendor services
+builder.Services.AddScoped<IVendorRepository, VendorRepository>();
+builder.Services.AddScoped<IVendorService, VendorService>();
 
 // OpenAPI / Swagger
 builder.Services.AddOpenApi();

@@ -27,7 +27,7 @@ namespace Partpurja.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Add further configuration if needed
+            
         }
     }
 }
