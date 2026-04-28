@@ -39,9 +39,18 @@ namespace Partpurja.Infrastructure.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("ServiceDescription")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int?>("StaffProfileId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("VehicleId")
                         .HasColumnType("integer");
@@ -49,6 +58,8 @@ namespace Partpurja.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("StaffProfileId");
 
                     b.HasIndex("VehicleId");
 
@@ -75,13 +86,23 @@ namespace Partpurja.Infrastructure.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<bool>("IsEmailSent")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("SalesInvoiceId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("SalesInvoiceId");
 
                     b.ToTable("CreditReminders");
                 });
@@ -112,6 +133,9 @@ namespace Partpurja.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -141,6 +165,14 @@ namespace Partpurja.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -159,6 +191,10 @@ namespace Partpurja.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -173,13 +209,28 @@ namespace Partpurja.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("PartNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
+
+                    b.Property<int>("ReorderLevel")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Stock")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("VendorId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("VendorId");
 
                     b.ToTable("Parts");
                 });
@@ -198,12 +249,24 @@ namespace Partpurja.Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Status")
+                    b.Property<decimal>("DiscountAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("InvoiceNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<decimal>("PaidAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("numeric");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("VendorId")
                         .HasColumnType("integer");
@@ -265,6 +328,9 @@ namespace Partpurja.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
@@ -281,18 +347,39 @@ namespace Partpurja.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<decimal>("CreditAmount")
+                        .HasColumnType("numeric");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Status")
+                    b.Property<decimal>("DiscountAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("InvoiceNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsInvoiceEmailed")
+                        .HasColumnType("boolean");
+
+                    b.Property<decimal>("PaidAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("numeric");
+
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("numeric");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -354,6 +441,9 @@ namespace Partpurja.Infrastructure.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("VehicleId")
                         .HasColumnType("integer");
 
@@ -377,12 +467,23 @@ namespace Partpurja.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Position")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -409,12 +510,25 @@ namespace Partpurja.Infrastructure.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PartId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Status")
+                    b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int?>("PartId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("RequestedPartName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -450,6 +564,9 @@ namespace Partpurja.Infrastructure.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
@@ -473,6 +590,10 @@ namespace Partpurja.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ChassisNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -486,9 +607,22 @@ namespace Partpurja.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("MonthlyUsageKm")
+                        .HasColumnType("integer");
+
                     b.Property<string>("RegistrationNumber")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("VehicleCondition")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -516,12 +650,19 @@ namespace Partpurja.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -531,18 +672,24 @@ namespace Partpurja.Infrastructure.Migrations
             modelBuilder.Entity("Partpurja.Domain.Models.Appointment", b =>
                 {
                     b.HasOne("Partpurja.Domain.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Appointments")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Partpurja.Domain.Models.StaffProfile", "StaffProfile")
+                        .WithMany("Appointments")
+                        .HasForeignKey("StaffProfileId");
+
                     b.HasOne("Partpurja.Domain.Models.Vehicle", "Vehicle")
-                        .WithMany()
+                        .WithMany("Appointments")
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
+
+                    b.Navigation("StaffProfile");
 
                     b.Navigation("Vehicle");
                 });
@@ -550,12 +697,18 @@ namespace Partpurja.Infrastructure.Migrations
             modelBuilder.Entity("Partpurja.Domain.Models.CreditReminder", b =>
                 {
                     b.HasOne("Partpurja.Domain.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("CreditReminders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Partpurja.Domain.Models.SalesInvoice", "SalesInvoice")
+                        .WithMany()
+                        .HasForeignKey("SalesInvoiceId");
+
                     b.Navigation("Customer");
+
+                    b.Navigation("SalesInvoice");
                 });
 
             modelBuilder.Entity("Partpurja.Domain.Models.Customer", b =>
@@ -572,7 +725,7 @@ namespace Partpurja.Infrastructure.Migrations
             modelBuilder.Entity("Partpurja.Domain.Models.Notification", b =>
                 {
                     b.HasOne("Partpurja.Domain.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Notifications")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -580,10 +733,21 @@ namespace Partpurja.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Partpurja.Domain.Models.Part", b =>
+                {
+                    b.HasOne("Partpurja.Domain.Models.Vendor", "Vendor")
+                        .WithMany("Parts")
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vendor");
+                });
+
             modelBuilder.Entity("Partpurja.Domain.Models.PurchaseInvoice", b =>
                 {
                     b.HasOne("Partpurja.Domain.Models.Vendor", "Vendor")
-                        .WithMany()
+                        .WithMany("PurchaseInvoices")
                         .HasForeignKey("VendorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -594,7 +758,7 @@ namespace Partpurja.Infrastructure.Migrations
             modelBuilder.Entity("Partpurja.Domain.Models.PurchaseInvoiceItem", b =>
                 {
                     b.HasOne("Partpurja.Domain.Models.Part", "Part")
-                        .WithMany()
+                        .WithMany("PurchaseInvoiceItems")
                         .HasForeignKey("PartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -613,7 +777,7 @@ namespace Partpurja.Infrastructure.Migrations
             modelBuilder.Entity("Partpurja.Domain.Models.SalesInvoice", b =>
                 {
                     b.HasOne("Partpurja.Domain.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("SalesInvoices")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -624,7 +788,7 @@ namespace Partpurja.Infrastructure.Migrations
             modelBuilder.Entity("Partpurja.Domain.Models.SalesInvoiceItem", b =>
                 {
                     b.HasOne("Partpurja.Domain.Models.Part", "Part")
-                        .WithMany()
+                        .WithMany("SalesInvoiceItems")
                         .HasForeignKey("PartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -643,13 +807,13 @@ namespace Partpurja.Infrastructure.Migrations
             modelBuilder.Entity("Partpurja.Domain.Models.ServiceReview", b =>
                 {
                     b.HasOne("Partpurja.Domain.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("ServiceReviews")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Partpurja.Domain.Models.Vehicle", "Vehicle")
-                        .WithMany()
+                        .WithMany("ServiceReviews")
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -673,16 +837,14 @@ namespace Partpurja.Infrastructure.Migrations
             modelBuilder.Entity("Partpurja.Domain.Models.UnavailablePartRequest", b =>
                 {
                     b.HasOne("Partpurja.Domain.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("UnavailablePartRequests")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Partpurja.Domain.Models.Part", "Part")
-                        .WithMany()
-                        .HasForeignKey("PartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("UnavailablePartRequests")
+                        .HasForeignKey("PartId");
 
                     b.Navigation("Customer");
 
@@ -694,7 +856,7 @@ namespace Partpurja.Infrastructure.Migrations
                     b.HasOne("Partpurja.Domain.Models.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Role");
@@ -713,7 +875,26 @@ namespace Partpurja.Infrastructure.Migrations
 
             modelBuilder.Entity("Partpurja.Domain.Models.Customer", b =>
                 {
+                    b.Navigation("Appointments");
+
+                    b.Navigation("CreditReminders");
+
+                    b.Navigation("SalesInvoices");
+
+                    b.Navigation("ServiceReviews");
+
+                    b.Navigation("UnavailablePartRequests");
+
                     b.Navigation("Vehicles");
+                });
+
+            modelBuilder.Entity("Partpurja.Domain.Models.Part", b =>
+                {
+                    b.Navigation("PurchaseInvoiceItems");
+
+                    b.Navigation("SalesInvoiceItems");
+
+                    b.Navigation("UnavailablePartRequests");
                 });
 
             modelBuilder.Entity("Partpurja.Domain.Models.PurchaseInvoice", b =>
@@ -731,11 +912,32 @@ namespace Partpurja.Infrastructure.Migrations
                     b.Navigation("Items");
                 });
 
+            modelBuilder.Entity("Partpurja.Domain.Models.StaffProfile", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
             modelBuilder.Entity("Partpurja.Domain.Models.User", b =>
                 {
                     b.Navigation("Customer");
 
+                    b.Navigation("Notifications");
+
                     b.Navigation("StaffProfile");
+                });
+
+            modelBuilder.Entity("Partpurja.Domain.Models.Vehicle", b =>
+                {
+                    b.Navigation("Appointments");
+
+                    b.Navigation("ServiceReviews");
+                });
+
+            modelBuilder.Entity("Partpurja.Domain.Models.Vendor", b =>
+                {
+                    b.Navigation("Parts");
+
+                    b.Navigation("PurchaseInvoices");
                 });
 #pragma warning restore 612, 618
         }
