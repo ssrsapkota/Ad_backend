@@ -54,6 +54,7 @@ namespace Partpurja.Infrastructure.Repository
             {
                 Name = createVendorDto.Name,
                 Contact = createVendorDto.Contact,
+                Email = createVendorDto.Email,
                 Address = createVendorDto.Address,
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
@@ -79,6 +80,7 @@ namespace Partpurja.Infrastructure.Repository
 
             vendor.Name = updateVendorDto.Name;
             vendor.Contact = updateVendorDto.Contact;
+            vendor.Email = updateVendorDto.Email;
             vendor.Address = updateVendorDto.Address;
             vendor.IsActive = updateVendorDto.IsActive;
 
@@ -117,6 +119,7 @@ namespace Partpurja.Infrastructure.Repository
                 Id = vendor.Id,
                 Name = vendor.Name,
                 Contact = vendor.Contact,
+                Email = vendor.Email,
                 Address = vendor.Address,
                 IsActive = vendor.IsActive,
                 CreatedAt = vendor.CreatedAt

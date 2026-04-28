@@ -16,6 +16,11 @@ namespace Partpurja.Application.DTOs.Vendor
         public string Contact { get; set; } = string.Empty;
 
         /// <summary>
+        /// Email address of the vendor.
+        /// </summary>
+        public string Email { get; set; } = string.Empty;
+
+        /// <summary>
         /// Address of the vendor.
         /// </summary>
         public string Address { get; set; } = string.Empty;
