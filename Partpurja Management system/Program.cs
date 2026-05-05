@@ -23,6 +23,18 @@ builder.Services.AddScoped<IVendorService, VendorService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
+// Vendor services
+builder.Services.AddScoped<IVendorRepository, VendorRepository>();
+builder.Services.AddScoped<IVendorService, VendorService>();
+
+// Customer services
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+// Staff services
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+builder.Services.AddScoped<IStaffService, StaffService>();
+
 // =========================
 // Feature 15: Low Stock & Credit Reminders
 // =========================
@@ -40,6 +52,12 @@ builder.Services.AddScoped<ICreditReminderService, CreditReminderService>();
 // Register Customer services
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+// =========================
+// Feature 16: Loyalty Program
+// =========================
+builder.Services.AddScoped<ILoyaltyService, LoyaltyService>();
+
 // OpenAPI / Swagger
 builder.Services.AddOpenApi();
 
