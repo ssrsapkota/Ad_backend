@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Partpurja.Application.DTOs.Email;
 using Partpurja.Application.Interface.IRepository;
 using Partpurja.Application.Interface.IServices;
 using Partpurja.Infrastructure.Persistence;
@@ -14,7 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Vendor services 
+// Vendor services
+
 builder.Services.AddScoped<IVendorRepository, VendorRepository>();
 builder.Services.AddScoped<IVendorService, VendorService>();
 

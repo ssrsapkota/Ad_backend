@@ -9,10 +9,8 @@ namespace Partpurja.Application.Interface.IServices
     {
         /// <summary>
         /// Calculates the loyalty discount for a given purchase subtotal.
-        /// Applies a 10% discount if the subtotal exceeds 5000.
+        /// Applies a 10% discount if the subtotal is 5000 or above.
         /// </summary>
-        /// <param name="request">The loyalty calculation request containing the subtotal amount.</param>
-        /// <returns>The loyalty calculation result with discount details.</returns>
-        LoyaltyCalculationResultDto Calculate(LoyaltyCalculationRequestDto request);
+        Task<LoyaltyCalculationResultDto> CalculateAsync(LoyaltyCalculationRequestDto request);
     }
 }
