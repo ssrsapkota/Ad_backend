@@ -28,25 +28,10 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 
-// Staff services
-builder.Services.AddScoped<IStaffRepository, StaffRepository>();
-builder.Services.AddScoped<IStaffService, StaffService>();
-
-// =========================
-// Feature 15: Low Stock & Credit Reminders
-// =========================
-builder.Services.Configure<EmailSettings>(
-    builder.Configuration.GetSection("EmailSettings"));
-
-builder.Services.AddScoped<IPartRepository, PartRepository>();
-builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
-builder.Services.AddScoped<ICreditReminderRepository, CreditReminderRepository>();
-
-builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<IStockMonitorService, StockMonitorService>();
-builder.Services.AddScoped<ICreditReminderService, CreditReminderService>();
-
+// History services
+builder.Services.AddScoped<ISalesInvoiceRepository, SalesInvoiceRepository>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IHistoryService, HistoryService>();
 
 // =========================
 // Feature 16: Loyalty Program
