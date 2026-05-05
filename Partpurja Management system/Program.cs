@@ -22,6 +22,10 @@ builder.Services.AddScoped<IVendorService, VendorService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
+// Register Staff services
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+builder.Services.AddScoped<IStaffService, StaffService>();
+
 // OpenAPI / Swagger
 builder.Services.AddOpenApi();
 
