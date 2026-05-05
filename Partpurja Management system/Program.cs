@@ -15,11 +15,11 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Vendor services (existing)
+// Vendor services
 builder.Services.AddScoped<IVendorRepository, VendorRepository>();
 builder.Services.AddScoped<IVendorService, VendorService>();
 
-// Customer services (existing)
+// Customer services
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
@@ -41,6 +41,11 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IStockMonitorService, StockMonitorService>();
 builder.Services.AddScoped<ICreditReminderService, CreditReminderService>();
+
+// =========================
+// Feature 16: Loyalty Program
+// =========================
+builder.Services.AddScoped<ILoyaltyService, LoyaltyService>();
 
 // OpenAPI / Swagger
 builder.Services.AddOpenApi();
