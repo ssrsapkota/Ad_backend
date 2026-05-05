@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Partpurja.Application.DTOs.Email;
 using Partpurja.Application.Interface.IRepository;
 using Partpurja.Application.Interface.IServices;
 using Partpurja.Infrastructure.Persistence;
@@ -14,7 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Vendor services 
+// Vendor services
+
 builder.Services.AddScoped<IVendorRepository, VendorRepository>();
 builder.Services.AddScoped<IVendorService, VendorService>();
 
@@ -25,6 +27,26 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 // Vehicle services
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
+
+// Staff services
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+builder.Services.AddScoped<IStaffService, StaffService>();
+
+// =========================
+// Feature 15: Low Stock & Credit Reminders
+// =========================
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings"));
+
+builder.Services.AddScoped<IPartRepository, PartRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<ICreditReminderRepository, CreditReminderRepository>();
+
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IStockMonitorService, StockMonitorService>();
+builder.Services.AddScoped<ICreditReminderService, CreditReminderService>();
+
 
 // =========================
 // Feature 16: Loyalty Program

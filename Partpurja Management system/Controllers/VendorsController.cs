@@ -89,7 +89,7 @@ namespace Partpurja.Api.Controllers
         }
 
         /// <summary>
-        /// deletes a vendor.
+        /// Soft deletes a vendor.
         /// </summary>
         /// <param name="id">The vendor ID.</param>
         /// <returns>NoContent if successful; otherwise NotFound.</returns>
