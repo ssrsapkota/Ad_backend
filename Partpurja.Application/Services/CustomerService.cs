@@ -26,7 +26,8 @@ public class CustomerService : ICustomerService
             // Create new customer
             customer = new Customer
             {
-                FullName = dto.FullName,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
                 PhoneNumber = dto.PhoneNumber,
                 Email = dto.Email,
                 Address = dto.Address
@@ -35,12 +36,12 @@ public class CustomerService : ICustomerService
             var vehicle = new VehicleInfo
             {
                 VehicleNumber = dto.VehicleNumber,
-                Make = dto.Make,
+                Brand = dto.Brand,
                 Model = dto.Model,
                 Year = dto.Year,
                 Customer = customer
             };
-
+ 
             customer.Vehicles.Add(vehicle);
             await _customers.AddAsync(customer, ct);
         }
@@ -52,7 +53,7 @@ public class CustomerService : ICustomerService
                 var vehicle = new VehicleInfo
                 {
                     VehicleNumber = dto.VehicleNumber,
-                    Make = dto.Make,
+                    Brand = dto.Brand,
                     Model = dto.Model,
                     Year = dto.Year,
                     Customer = customer
@@ -65,13 +66,14 @@ public class CustomerService : ICustomerService
         return new CustomerDto
         {
             Id = customer.Id,
-            FullName = customer.FullName,
+            FirstName = customer.FirstName,
+            LastName = customer.LastName,
             PhoneNumber = customer.PhoneNumber,
             Email = customer.Email,
             Vehicles = customer.Vehicles.Select(v => new VehicleDto
             {
                 VehicleNumber = v.VehicleNumber,
-                Make = v.Make,
+                Brand = v.Brand,
                 Model = v.Model,
                 Year = v.Year
             }).ToList()

@@ -7,4 +7,5 @@ public interface ICustomerRepository
     Task AddAsync(Customer customer, CancellationToken ct = default);
     Task UpdateAsync(Customer customer, CancellationToken ct = default);
     Task<Customer?> GetByPhoneNumberAsync(string phoneNumber, CancellationToken ct = default);
+    Task<IEnumerable<Customer>> SearchAsync(string? searchTerm, CancellationToken ct = default);
 }

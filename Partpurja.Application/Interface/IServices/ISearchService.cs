@@ -1,6 +1,8 @@
+using Partpurja.Application.DTOs.Search;
+
 namespace Partpurja.Application.Interface.IServices;
 
-public class ISearchService
+public interface ISearchService
 {
-    
+    Task<CustomerSearchResultDto> SearchCustomersAsync(CustomerSearchRequestDto request, CancellationToken ct = default);
 }

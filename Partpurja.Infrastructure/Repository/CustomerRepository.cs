@@ -28,4 +28,23 @@ public class CustomerRepository : ICustomerRepository
             .Include(c => c.Vehicles)
             .FirstOrDefaultAsync(c => c.PhoneNumber == phoneNumber, ct);
     }
+
+    public async Task<IEnumerable<Customer>> SearchAsync(string? searchTerm, CancellationToken ct = default)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            return await _db.Customers.Include(c => c.Vehicles).ToListAsync(ct);
+        }
+
+        searchTerm = searchTerm.ToLower();
+
+        return await _db.Customers
+            .Include(c => c.Vehicles)
+            .Where(c => c.FirstName.ToLower().Contains(searchTerm) ||
+                        c.LastName.ToLower().Contains(searchTerm) ||
+                        c.PhoneNumber.Contains(searchTerm) ||
+                        c.Id.ToString().Contains(searchTerm) ||
+                        c.Vehicles.Any(v => v.VehicleNumber.ToLower().Contains(searchTerm)))
+            .ToListAsync(ct);
+    }
 }
