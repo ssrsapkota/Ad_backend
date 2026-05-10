@@ -1,7 +1,16 @@
 using Partpurja.Domain.Models;
 
-public interface IAppointmentRepository
+namespace Partpurja.Application.Interface.IRepository
 {
-    // Method to get all appointments for a customer
-    Task<List<Appointment>> GetByCustomerIdAsync(int customerId);
+    public interface IAppointmentRepository
+    {
+        // Get appointments by customer
+        Task<List<Appointment>> GetByCustomerIdAsync(int customerId);
+
+        // Get all appointments
+        Task<List<Appointment>> GetAllAsync();
+
+        // Create appointment
+        Task<Appointment> CreateAsync(Appointment appointment);
+    }
 }
