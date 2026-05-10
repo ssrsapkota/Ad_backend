@@ -15,16 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Vendor services (existing)
-builder.Services.AddScoped<IVendorRepository, VendorRepository>();
-builder.Services.AddScoped<IVendorService, VendorService>();
-
-// Customer services (existing)
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 // Vendor services
-
 builder.Services.AddScoped<IVendorRepository, VendorRepository>();
 builder.Services.AddScoped<IVendorService, VendorService>();
 
@@ -36,13 +28,9 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 
-
-// =========================
 // Feature 15: Low Stock & Credit Reminders
-// =========================
-
 builder.Services.Configure<EmailSettings>(
-    builder.Configuration.GetSection("EmailSettings"));
+builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddScoped<IPartRepository, PartRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
@@ -52,19 +40,16 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IStockMonitorService, StockMonitorService>();
 builder.Services.AddScoped<ICreditReminderService, CreditReminderService>();
-// Register Customer services
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 // History services
 builder.Services.AddScoped<ISalesInvoiceRepository, SalesInvoiceRepository>();
-builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IHistoryService, HistoryService>();
 
+// Appointment services
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 
-// =========================
 // Feature 16: Loyalty Program
-// =========================
 builder.Services.AddScoped<ILoyaltyService, LoyaltyService>();
 
 // OpenAPI / Swagger
