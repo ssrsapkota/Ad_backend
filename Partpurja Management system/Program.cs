@@ -48,6 +48,8 @@ builder.Services.AddScoped<IHistoryService, HistoryService>();
 // Appointment services
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IUnavailablePartRequestRepository, UnavailablePartRequestRepository>();
+builder.Services.AddScoped<IUnavailablePartRequestService, UnavailablePartRequestService>();
 
 // Feature 16: Loyalty Program
 builder.Services.AddScoped<ILoyaltyService, LoyaltyService>();

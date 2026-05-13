@@ -6,10 +6,14 @@ namespace Partpurja.Application.DTOs.UnavailablePartRequest
 
         public int CustomerId { get; set; }
 
-        public string PartName { get; set; } = string.Empty;
+        public string RequestedPartName { get; set; } = string.Empty;
 
-        public string Description { get; set; } = string.Empty;
+        public int Quantity { get; set; }
 
-        public DateTime RequestedAt { get; set; }
+        public string Notes { get; set; } = string.Empty;
+
+        public string Status { get; set; } = string.Empty;
+
+        public DateTime CreatedAt { get; set; }
     }
 }
