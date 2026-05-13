@@ -49,7 +49,8 @@ builder.Services.AddScoped<IHistoryService, HistoryService>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IUnavailablePartRequestRepository, UnavailablePartRequestRepository>();
-builder.Services.AddScoped<IUnavailablePartRequestService, UnavailablePartRequestService>();
+builder.Services.AddScoped<IUnavailablePartRequestService, UnavailablePartRequestService>();builder.Services.AddScoped<IServiceReviewRepository, ServiceReviewRepository>();
+builder.Services.AddScoped<IServiceReviewService, ServiceReviewService>();
 
 // Feature 16: Loyalty Program
 builder.Services.AddScoped<ILoyaltyService, LoyaltyService>();
