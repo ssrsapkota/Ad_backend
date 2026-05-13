@@ -39,7 +39,8 @@ namespace Partpurja.Infrastructure.Services
             {
                 FullName = dto.FullName,
                 Phone = dto.Phone,
-                Address = dto.Address
+                Address = dto.Address,
+                UserId = 2 // TEMP FIX 
             };
 
             //Repository method for New Customer

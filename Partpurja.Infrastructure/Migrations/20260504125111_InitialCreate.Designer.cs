@@ -12,7 +12,7 @@ using Partpurja.Infrastructure.Persistence;
 namespace Partpurja.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260428124402_InitialCreate")]
+    [Migration("20260504125111_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
