@@ -1,46 +1,62 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Partpurja.Application.DTOs.Customers;
+using Partpurja.Application.DTOs.Email;
 using Partpurja.Application.Interface.IRepository;
 using Partpurja.Application.Interface.IServices;
-using Partpurja.Application.Services;
-using Partpurja.Infrastructure.Presistance;
+using Partpurja.Infrastructure.Persistence;
 using Partpurja.Infrastructure.Repository;
+using Partpurja.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// OpenAPI (no Swagger UI)
-builder.Services.AddOpenApi();
-
+// Add services to the container
 builder.Services.AddControllers();
 
-// CORS (optional; safe to keep)
-builder.Services.AddCors(opt =>
-{
-    opt.AddPolicy("AllowFrontend", p =>
-        p.WithOrigins("http://localhost:5173")
-         .AllowAnyHeader()
-         .AllowAnyMethod());
-});
+// Database connection
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// DB provider from config
-var provider = builder.Configuration["Database:Provider"] ?? "Postgres";
 
-builder.Services.AddDbContext<AppDbContext>(opt =>
-{
-    if (string.Equals(provider, "Postgres", StringComparison.OrdinalIgnoreCase))
-        opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-    else
-        opt.UseInMemoryDatabase("partpurja_dev");
-});
+// Vendor services
+builder.Services.AddScoped<IVendorRepository, VendorRepository>();
+builder.Services.AddScoped<IVendorService, VendorService>();
 
-// DI for Feature 6
+// Customer services
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<ISearchService, SearchService>();
+
+// Vehicle services
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
+
+// Feature 15: Low Stock & Credit Reminders
+builder.Services.Configure<EmailSettings>(
+builder.Configuration.GetSection("EmailSettings"));
+
+builder.Services.AddScoped<IPartRepository, PartRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<ICreditReminderRepository, CreditReminderRepository>();
+
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IStockMonitorService, StockMonitorService>();
+builder.Services.AddScoped<ICreditReminderService, CreditReminderService>();
+
+// History services
+builder.Services.AddScoped<ISalesInvoiceRepository, SalesInvoiceRepository>();
+builder.Services.AddScoped<IHistoryService, HistoryService>();
+
+// Appointment services
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IUnavailablePartRequestRepository, UnavailablePartRequestRepository>();
+builder.Services.AddScoped<IUnavailablePartRequestService, UnavailablePartRequestService>();builder.Services.AddScoped<IServiceReviewRepository, ServiceReviewRepository>();
+builder.Services.AddScoped<IServiceReviewService, ServiceReviewService>();
+
+// Feature 16: Loyalty Program
+builder.Services.AddScoped<ILoyaltyService, LoyaltyService>();
+
+// OpenAPI / Swagger
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
@@ -50,31 +66,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-// Optional helpers
-app.MapGet("/", () => Results.Ok("Partpurja API running"));
-app.MapGet("/health", () => Results.Ok("Healthy"));
-
-app.UseCors("AllowFrontend");
-
+app.UseHttpsRedirection();
+app.UseAuthorization();
 app.MapControllers();
-
-// Apply migrations (Postgres) or EnsureCreated (InMemory)
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    if (string.Equals(provider, "Postgres", StringComparison.OrdinalIgnoreCase))
-        db.Database.Migrate();
-    else
-        db.Database.EnsureCreated();
-}
-
-
-
-// Print URLs for easy copy to Postman
-app.Lifetime.ApplicationStarted.Register(() =>
-{
-    var urls = string.Join(", ", app.Urls);
-    Console.WriteLine("Now listening on: " + urls);
-});
-
 app.Run();

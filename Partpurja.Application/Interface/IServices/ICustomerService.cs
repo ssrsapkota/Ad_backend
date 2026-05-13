@@ -1,8 +1,12 @@
-using Partpurja.Application.DTOs.Customers;
+using Partpurja.Application.DTOs.Customer;
 
-namespace Partpurja.Application.Interface.IServices;
-
-public interface ICustomerService
+namespace Partpurja.Application.Interface.IServices
 {
-    Task<CustomerDto> RegisterCustomerWithVehicleAsync(RegisterCustomerRequestDto dto, CancellationToken ct = default);
+    public interface ICustomerService
+    {
+        // Method to get all customers
+        Task<List<CustomerDto>> GetAllAsync();
+        // Method to create a new customer
+        Task<CustomerDto> CreateAsync(CreateCustomerDto dto);
+    }
 }

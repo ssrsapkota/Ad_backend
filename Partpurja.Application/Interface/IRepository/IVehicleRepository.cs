@@ -1,8 +1,10 @@
-using Partpurja.Domain.Models.Vehicle;
+using Partpurja.Domain.Models;
 
-namespace Partpurja.Application.Interface.IRepository;
-
-public interface IVehicleRepository
+namespace Partpurja.Application.Interface.IRepository
 {
-    Task AddAsync(VehicleInfo vehicle, CancellationToken ct = default);
+    public interface IVehicleRepository
+    {
+        Task<List<Vehicle>> GetAllAsync();
+        Task<Vehicle> CreateAsync(Vehicle vehicle);
+    }
 }

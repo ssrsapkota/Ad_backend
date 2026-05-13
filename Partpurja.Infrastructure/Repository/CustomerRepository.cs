@@ -1,50 +1,53 @@
 using Microsoft.EntityFrameworkCore;
 using Partpurja.Application.Interface.IRepository;
-using Partpurja.Domain.Models.Users;
-using Partpurja.Infrastructure.Presistance;
+using Partpurja.Domain.Models;
+using Partpurja.Infrastructure.Persistence;
 
-namespace Partpurja.Infrastructure.Repository;
-
-public class CustomerRepository : ICustomerRepository
+namespace Partpurja.Infrastructure.Repository
 {
-    private readonly AppDbContext _db;
-    public CustomerRepository(AppDbContext db) => _db = db;
-
-    public async Task AddAsync(Customer customer, CancellationToken ct = default)
+    // Repository implementation for Customer
+    public class CustomerRepository : ICustomerRepository
     {
-        _db.Customers.Add(customer);
-        await _db.SaveChangesAsync(ct);
-    }
-
-    public async Task UpdateAsync(Customer customer, CancellationToken ct = default)
-    {
-        _db.Customers.Update(customer);
-        await _db.SaveChangesAsync(ct);
-    }
-
-    public async Task<Customer?> GetByPhoneNumberAsync(string phoneNumber, CancellationToken ct = default)
-    {
-        return await _db.Customers
-            .Include(c => c.Vehicles)
-            .FirstOrDefaultAsync(c => c.PhoneNumber == phoneNumber, ct);
-    }
-
-    public async Task<IEnumerable<Customer>> SearchAsync(string? searchTerm, CancellationToken ct = default)
-    {
-        if (string.IsNullOrWhiteSpace(searchTerm))
+        private readonly AppDbContext _context;
+        //Constructor 
+        public CustomerRepository(AppDbContext context)
         {
-            return await _db.Customers.Include(c => c.Vehicles).ToListAsync(ct);
+            _context = context;
         }
 
-        searchTerm = searchTerm.ToLower();
+        // Method to get all customers
+        public async Task<List<Customer>> GetAllAsync()
+        {
+            return await _context.Customers.ToListAsync();
+        }
 
-        return await _db.Customers
-            .Include(c => c.Vehicles)
-            .Where(c => c.FirstName.ToLower().Contains(searchTerm) ||
-                        c.LastName.ToLower().Contains(searchTerm) ||
-                        c.PhoneNumber.Contains(searchTerm) ||
-                        c.Id.ToString().Contains(searchTerm) ||
-                        c.Vehicles.Any(v => v.VehicleNumber.ToLower().Contains(searchTerm)))
-            .ToListAsync(ct);
+        // Method to get a customer by ID
+        public async Task<Customer?> GetByIdAsync(int id)
+        {
+            return await _context.Customers.FindAsync(id);
+        }
+
+        // Method to create a new customer
+        public async Task<Customer> CreateAsync(Customer customer)
+        {
+            _context.Customers.Add(customer);
+            await _context.SaveChangesAsync();
+            return customer;
+        }
+
+        // Method to update an existing customer
+        public async Task<Customer?> UpdateAsync(int id, Customer customer)
+        {
+            //To check if the customer exists in the database
+            var existing = await _context.Customers.FindAsync(id);
+            if (existing == null) return null;
+
+            existing.FullName = customer.FullName;
+            existing.Phone = customer.Phone;
+            existing.Address = customer.Address;
+
+            await _context.SaveChangesAsync();
+            return existing;
+        }
     }
 }
