@@ -10,4 +10,11 @@
     <ProjectReference Include="..\Partpurja.Domain\Partpurja.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\" />
+    <Folder Include="DTOs\Report\" />
+    <Folder Include="Mappings\" />
+    <Folder Include="Validators\" />
+  </ItemGroup>
+
 </Project>

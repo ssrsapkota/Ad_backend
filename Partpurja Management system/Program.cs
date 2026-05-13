@@ -62,6 +62,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    // /openapi/v1.json (for Postman import)
     app.MapOpenApi();
 }
 

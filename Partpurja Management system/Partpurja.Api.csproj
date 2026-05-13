@@ -17,8 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Partpurja.Application\Partpurja.Application.csproj" />
-    <ProjectReference Include="..\Partpurja.Infrastructure\Partpurja.Infrastructure.csproj" />
+    <Folder Include="Configuration\" />
+    <Folder Include="Filters\" />
+    <Folder Include="Middlewear\" />
   </ItemGroup>
 
 </Project>
