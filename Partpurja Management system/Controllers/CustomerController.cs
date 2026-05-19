@@ -26,7 +26,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet("{id:int}")]
-        [Authorize(Roles = "Admin,Staff")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetById(int id)
         {
             var customer = await _service.GetByIdAsync(id);
