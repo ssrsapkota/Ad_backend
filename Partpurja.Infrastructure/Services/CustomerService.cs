@@ -5,54 +5,98 @@ using Partpurja.Domain.Models;
 
 namespace Partpurja.Infrastructure.Services
 {
-    // Service implementation for Customer
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository _repo;
 
         public CustomerService(ICustomerRepository repo)
         {
-            // Dependency injection
             _repo = repo;
         }
 
-        // Method to get all customers
         public async Task<List<CustomerDto>> GetAllAsync()
-            {
-                //Repository method to get all customers
-                var customers = await _repo.GetAllAsync();
+        {
+            var customers = await _repo.GetAllAsync();
+            return customers.Select(Map).ToList();
+        }
 
-                return customers.Select(c => new CustomerDto
-                {
-                    Id = c.Id,
-                    FullName = c.FullName,
-                    Phone = c.Phone,
-                    Address = c.Address
-                }).ToList();
-            }
+        public async Task<CustomerDto?> GetByIdAsync(int id)
+        {
+            var customer = await _repo.GetByIdAsync(id);
+            return customer == null ? null : Map(customer);
+        }
 
-        // Method to create a new customer
+        public async Task<CustomerDto?> GetByUserIdAsync(int userId)
+        {
+            var customer = await _repo.GetByUserIdAsync(userId);
+            return customer == null ? null : Map(customer);
+        }
+
         public async Task<CustomerDto> CreateAsync(CreateCustomerDto dto)
         {
-            // Map the CreateCustomerDto to Customer entity
             var customer = new Customer
+            {
+                UserId = dto.UserId,
+                FullName = dto.FullName,
+                Phone = dto.Phone,
+                Address = dto.Address
+            };
+
+            if (!string.IsNullOrWhiteSpace(dto.VehicleRegistrationNumber))
+            {
+                customer.Vehicles.Add(new Vehicle
+                {
+                    RegistrationNumber = dto.VehicleRegistrationNumber,
+                    Brand = dto.VehicleBrand ?? string.Empty,
+                    Model = dto.VehicleModel ?? string.Empty,
+                    Year = dto.VehicleYear ?? DateTime.UtcNow.Year,
+                    ChassisNumber = dto.VehicleChassisNumber ?? string.Empty,
+                    VehicleCondition = dto.VehicleCondition ?? string.Empty,
+                    MonthlyUsageKm = dto.MonthlyUsageKm ?? 0,
+                    IsActive = true
+                });
+            }
+
+            var created = await _repo.CreateAsync(customer);
+            return Map(created);
+        }
+
+        public async Task<CustomerDto?> UpdateAsync(int id, UpdateCustomerDto dto)
+        {
+            var updated = await _repo.UpdateAsync(id, new Customer
             {
                 FullName = dto.FullName,
                 Phone = dto.Phone,
-                Address = dto.Address,
-                UserId = 2 // TEMP FIX 
-            };
+                Address = dto.Address
+            });
 
-            //Repository method for New Customer
-            var created = await _repo.CreateAsync(customer);
-
-            return new CustomerDto
-            {
-                Id = created.Id,
-                FullName = created.FullName,
-                Phone = created.Phone,
-                Address = created.Address
-            };
+            return updated == null ? null : Map(updated);
         }
+
+        public async Task<List<CustomerSearchResultDto>> SearchAsync(string query)
+        {
+            var customers = await _repo.SearchAsync(query);
+
+            return customers.Select(c => new CustomerSearchResultDto
+            {
+                Id = c.Id,
+                FullName = c.FullName,
+                Phone = c.Phone,
+                Email = c.User?.Email ?? string.Empty,
+                Address = c.Address,
+                VehicleRegistrationNumbers = c.Vehicles
+                    .Where(v => v.IsActive)
+                    .Select(v => v.RegistrationNumber)
+                    .ToList()
+            }).ToList();
+        }
+
+        private static CustomerDto Map(Customer c) => new()
+        {
+            Id = c.Id,
+            FullName = c.FullName,
+            Phone = c.Phone,
+            Address = c.Address
+        };
     }
 }

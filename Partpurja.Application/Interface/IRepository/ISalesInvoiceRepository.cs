@@ -1,7 +1,13 @@
 using Partpurja.Domain.Models;
 
-public interface ISalesInvoiceRepository
+namespace Partpurja.Application.Interface.IRepository
 {
-    // Method to get all sales invoices
-    Task<List<SalesInvoice>> GetByCustomerIdAsync(int customerId);
+    public interface ISalesInvoiceRepository
+    {
+        Task<List<SalesInvoice>> GetByCustomerIdAsync(int customerId);
+        Task<SalesInvoice?> GetByIdAsync(int id);
+        Task<SalesInvoice?> GetByIdWithCustomerAsync(int id);
+        Task<SalesInvoice> CreateAsync(SalesInvoice invoice);
+        Task<bool> MarkEmailedAsync(int id);
+    }
 }

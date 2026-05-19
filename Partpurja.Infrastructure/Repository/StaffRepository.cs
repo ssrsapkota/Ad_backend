@@ -34,24 +34,6 @@ namespace Partpurja.Infrastructure.Repository
             return MapToDto(staff);
         }
 
-        public async Task<StaffDto> CreateAsync(CreateStaffDto dto)
-        {
-            var staff = new StaffProfile
-            {
-                UserId = dto.UserId,
-                FullName = dto.FullName,
-                Phone = dto.Phone,
-                Position = dto.Position,
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            _context.StaffProfiles.Add(staff);
-            await _context.SaveChangesAsync();
-
-            return MapToDto(staff);
-        }
-
         public async Task<StaffDto?> UpdateAsync(int id, UpdateStaffDto dto)
         {
             var staff = await _context.StaffProfiles.FindAsync(id);

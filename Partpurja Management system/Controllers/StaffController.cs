@@ -55,9 +55,15 @@ namespace Partpurja.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var staff = await _staffService.CreateStaffAsync(dto);
-
-            return CreatedAtAction(nameof(GetStaffById), new { id = staff.UserId }, staff);
+            try
+            {
+                var staff = await _staffService.CreateStaffAsync(dto);
+                return CreatedAtAction(nameof(GetStaffById), new { id = staff.Id }, staff);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         /// <summary>

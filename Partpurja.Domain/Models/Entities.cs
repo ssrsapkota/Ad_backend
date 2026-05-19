@@ -169,9 +169,9 @@ namespace Partpurja.Domain.Models
 
         public string ChassisNumber { get; set; } = string.Empty;
 
-        public string VehicleCondition { get; set; } = string.Empty; // For AI prediction feature
+        public string VehicleCondition { get; set; } = string.Empty;
 
-        public int MonthlyUsageKm { get; set; } // For AI prediction feature
+        public int MonthlyUsageKm { get; set; }
 
         public bool IsActive { get; set; } = true;
 

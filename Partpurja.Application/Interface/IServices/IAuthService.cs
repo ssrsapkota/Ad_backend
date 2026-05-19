@@ -1,6 +1,10 @@
-namespace Partpurja.Application.Interface.IServices;
+using Partpurja.Application.DTOs.Auth;
 
-public class IAuthService
+namespace Partpurja.Application.Interface.IServices
 {
-    
+    public interface IAuthService
+    {
+        Task<AuthResponseDto> RegisterCustomerAsync(RegisterDto dto);
+        Task<AuthResponseDto?> LoginAsync(LoginDto dto);
+    }
 }
