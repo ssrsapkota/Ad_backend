@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Partpurja.Application.DTOs.PurchaseInvoice;
 using Partpurja.Application.Interface.IServices;
@@ -6,6 +7,7 @@ namespace Partpurja_Management_system.Controllers
 {
     [ApiController]
     [Route("api/purchase-invoices")]
+    [Authorize(Roles = "Admin")]
     public class PurchaseInvoicesController : ControllerBase
     {
         private readonly IPurchaseInvoiceService _service;

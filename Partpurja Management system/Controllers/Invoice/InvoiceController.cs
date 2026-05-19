@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Partpurja.Application.DTOs.Invoice;
 using Partpurja.Application.Interface.IServices;
@@ -6,6 +7,7 @@ namespace Partpurja_Management_system.Controllers.Invoice
 {
     [ApiController]
     [Route("api/invoices")]
+    [Authorize]
     public class InvoiceController : ControllerBase
     {
         private readonly IInvoiceService _invoiceService;
@@ -16,6 +18,7 @@ namespace Partpurja_Management_system.Controllers.Invoice
         }
 
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetById(int id)
         {
             var invoice = await _invoiceService.GetByIdAsync(id);
@@ -24,6 +27,7 @@ namespace Partpurja_Management_system.Controllers.Invoice
         }
 
         [HttpGet("customer/{customerId:int}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetByCustomerId(int customerId)
         {
             var invoices = await _invoiceService.GetByCustomerIdAsync(customerId);
@@ -31,6 +35,7 @@ namespace Partpurja_Management_system.Controllers.Invoice
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Create([FromBody] CreateInvoiceDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -50,6 +55,7 @@ namespace Partpurja_Management_system.Controllers.Invoice
         /// Emails an existing sales invoice to the customer on file.
         /// </summary>
         [HttpPost("{id:int}/email")]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> SendEmail(int id)
         {
             try

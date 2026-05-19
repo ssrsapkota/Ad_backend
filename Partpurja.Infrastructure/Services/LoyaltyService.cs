@@ -14,7 +14,7 @@ namespace Partpurja.Infrastructure.Services
 
         public Task<LoyaltyCalculationResultDto> CalculateAsync(LoyaltyCalculationRequestDto request)
         {
-            bool isLoyaltyDiscountApplied = request.SubTotal >= ThresholdAmount;
+            bool isLoyaltyDiscountApplied = request.SubTotal > ThresholdAmount;
 
             decimal discountAmount = isLoyaltyDiscountApplied
                 ? Math.Round(request.SubTotal * DiscountRate, 2, MidpointRounding.AwayFromZero)
@@ -25,8 +25,8 @@ namespace Partpurja.Infrastructure.Services
             decimal totalAmount = Math.Round(request.SubTotal - discountAmount, 2, MidpointRounding.AwayFromZero);
 
             string message = isLoyaltyDiscountApplied
-                ? $"{discountPercentage:0}% loyalty discount applied (purchase is Rs. 5000 or above)."
-                : "Spend Rs. 5000 or more in a single purchase to qualify for a 10% loyalty discount.";
+                ? $"{discountPercentage:0}% loyalty discount applied (purchase strictly exceeds Rs. 5000)."
+                : "Spend more than Rs. 5000 in a single purchase to qualify for a 10% loyalty discount.";
 
             return Task.FromResult(new LoyaltyCalculationResultDto
             {

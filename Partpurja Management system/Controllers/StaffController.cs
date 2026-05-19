@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Partpurja.Application.DTOs.Staff;
 using Partpurja.Application.Interface.IServices;
@@ -9,6 +10,7 @@ namespace Partpurja.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class StaffController : ControllerBase
     {
         private readonly IStaffService _staffService;
