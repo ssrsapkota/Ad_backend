@@ -10,6 +10,9 @@ namespace Partpurja.Application.DTOs.Invoice
         [Range(0, double.MaxValue)]
         public decimal PaidAmount { get; set; }
 
+        // Defaults to true; staff can opt out for credit sales where no reminder is wanted.
+        public bool SendCreditReminder { get; set; } = true;
+
         [Required, MinLength(1, ErrorMessage = "Invoice must contain at least one item.")]
         public List<CreateInvoiceItemDto> Items { get; set; } = new();
     }
@@ -26,6 +29,7 @@ namespace Partpurja.Application.DTOs.Invoice
         public decimal TotalAmount { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal CreditAmount { get; set; }
+        public bool SendCreditReminder { get; set; }
         public string Status { get; set; } = string.Empty;
         public List<InvoiceItemDto> Items { get; set; } = new();
     }

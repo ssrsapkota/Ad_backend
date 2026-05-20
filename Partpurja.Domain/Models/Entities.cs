@@ -324,6 +324,10 @@ namespace Partpurja.Domain.Models
 
         public bool IsInvoiceEmailed { get; set; } = false;
 
+        // When true, the 30-day overdue credit-reminder job will email the customer.
+        // Staff can opt out at point-of-sale (e.g. trusted customer, agreed terms).
+        public bool SendCreditReminder { get; set; } = true;
+
         public InvoiceStatus Status { get; set; } = InvoiceStatus.Pending;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

@@ -69,5 +69,28 @@ namespace Partpurja.Infrastructure.Services
                 Status = created.Status.ToString()
             };
         }
+
+        // Update appointment status (Pending / Confirmed / Completed / Cancelled)
+        public async Task<AppointmentDto?> UpdateStatusAsync(int id, string status)
+        {
+            if (!Enum.TryParse<AppointmentStatus>(status, ignoreCase: true, out var parsed))
+                throw new ArgumentException($"Invalid status '{status}'. Allowed: Pending, Confirmed, Completed, Cancelled.");
+
+            var appointment = await _repo.GetByIdAsync(id);
+            if (appointment is null) return null;
+
+            appointment.Status = parsed;
+            var updated = await _repo.UpdateAsync(appointment);
+
+            return new AppointmentDto
+            {
+                Id = updated.Id,
+                CustomerId = updated.CustomerId,
+                VehicleId = updated.VehicleId,
+                AppointmentDate = updated.AppointmentDate,
+                ServiceDescription = updated.ServiceDescription,
+                Status = updated.Status.ToString()
+            };
+        }
     }
 }

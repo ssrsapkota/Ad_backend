@@ -36,5 +36,20 @@ namespace Partpurja.Infrastructure.Repository
 
             return appointment;
         }
+
+        // Get appointment by id
+        public async Task<Appointment?> GetByIdAsync(int id)
+        {
+            return await _context.Appointments.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        // Update appointment
+        public async Task<Appointment> UpdateAsync(Appointment appointment)
+        {
+            appointment.UpdatedAt = DateTime.UtcNow;
+            _context.Appointments.Update(appointment);
+            await _context.SaveChangesAsync();
+            return appointment;
+        }
     }
 }

@@ -43,5 +43,23 @@ namespace Partpurja_Management_system.Controllers
             var appointment = await _service.CreateAsync(dto);
             return Ok(appointment);
         }
+
+        // Update appointment status (Accept / Reject / Complete)
+        [HttpPatch("{id}/status")]
+        [Authorize(Roles = "Admin,Staff")]
+        public async Task<IActionResult> UpdateStatus(int id, UpdateAppointmentStatusDto dto)
+        {
+            try
+            {
+                var updated = await _service.UpdateStatusAsync(id, dto.Status);
+                if (updated is null)
+                    return NotFound(new { message = "Appointment not found." });
+                return Ok(updated);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

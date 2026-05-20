@@ -33,7 +33,7 @@ namespace Partpurja.Infrastructure.Repository
             return await _context.SalesInvoices
                 .Include(si => si.Customer)
                     .ThenInclude(c => c!.User)
-                .Where(si => si.CreditAmount > 0 && si.Date <= cutoff)
+                .Where(si => si.CreditAmount > 0 && si.Date <= cutoff && si.SendCreditReminder)
                 .ToListAsync();
         }
 

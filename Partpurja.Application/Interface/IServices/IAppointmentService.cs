@@ -12,5 +12,8 @@ namespace Partpurja.Application.Interface.IServices
 
         // Create appointment
         Task<AppointmentDto> CreateAsync(CreateAppointmentDto dto);
+
+        // Update appointment status (Pending / Confirmed / Completed / Cancelled)
+        Task<AppointmentDto?> UpdateStatusAsync(int id, string status);
     }
 }

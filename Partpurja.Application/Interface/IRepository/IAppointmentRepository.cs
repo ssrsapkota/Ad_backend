@@ -12,5 +12,11 @@ namespace Partpurja.Application.Interface.IRepository
 
         // Create appointment
         Task<Appointment> CreateAsync(Appointment appointment);
+
+        // Get appointment by id
+        Task<Appointment?> GetByIdAsync(int id);
+
+        // Update appointment
+        Task<Appointment> UpdateAsync(Appointment appointment);
     }
 }

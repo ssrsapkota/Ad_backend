@@ -106,6 +106,8 @@ namespace Partpurja.Infrastructure.Services
                 TotalAmount = totalAmount,
                 PaidAmount = paidAmount,
                 CreditAmount = creditAmount,
+                // Only meaningful when there's an outstanding credit balance, but always persisted.
+                SendCreditReminder = creditAmount > 0m && dto.SendCreditReminder,
                 Status = status,
                 Items = items
             };
@@ -200,6 +202,7 @@ namespace Partpurja.Infrastructure.Services
             TotalAmount = invoice.TotalAmount,
             PaidAmount = invoice.PaidAmount,
             CreditAmount = invoice.CreditAmount,
+            SendCreditReminder = invoice.SendCreditReminder,
             Status = invoice.Status.ToString(),
             Items = invoice.Items.Select(i => new InvoiceItemDto
             {
