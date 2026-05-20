@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="feature07-testing-notes.txt" />
+  </Folder>
   <Project Path="Partpurja Management system/Partpurja.Api.csproj" />
   <Project Path="Partpurja.Application/Partpurja.Application.csproj" Id="e9e41089-fce4-463d-9316-be55e76b219e" />
   <Project Path="Partpurja.Domain/Partpurja.Domain.csproj" Id="373d1208-f2bf-4558-80d3-8528a861e20a" />
