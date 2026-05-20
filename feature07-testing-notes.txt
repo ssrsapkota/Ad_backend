@@ -1,0 +1,5 @@
+Feature 07 API Testing Notes
+
+Performed backend API testing for the purchase invoice/sales invoice related endpoint using Postman.
+Verified that the endpoint route was reachable and returned HTTP response data successfully.
+Testing evidence was collected for report documentation.
