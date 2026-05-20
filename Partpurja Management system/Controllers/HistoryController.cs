@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Partpurja.Application.Interface.IServices;
 
@@ -6,6 +7,7 @@ namespace Partpurja_Management_system.Controllers
     // Controller for handling customer history related requests
     [ApiController]
     [Route("api/history")]
+    [Authorize(Roles = "Admin,Staff,Customer")]
     public class HistoryController : ControllerBase
     {
         private readonly IHistoryService _service;

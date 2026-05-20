@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Partpurja.Application.DTOs.UnavailablePartRequest;
 using Partpurja.Application.Interface.IServices;
@@ -6,6 +7,7 @@ namespace Partpurja_Management_system.Controllers
 {
     [ApiController]
     [Route("api/unavailable-part-requests")]
+    [Authorize]
     public class UnavailablePartRequestsController : ControllerBase
     {
         private readonly IUnavailablePartRequestService _service;
@@ -17,6 +19,7 @@ namespace Partpurja_Management_system.Controllers
 
         // Get all requests
         [HttpGet]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> GetAll()
         {
             var requests = await _service.GetAllAsync();
@@ -25,6 +28,7 @@ namespace Partpurja_Management_system.Controllers
 
         // Get requests by customer
         [HttpGet("customer/{customerId}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetByCustomerId(int customerId)
         {
             var requests = await _service.GetByCustomerIdAsync(customerId);
@@ -33,6 +37,7 @@ namespace Partpurja_Management_system.Controllers
 
         // Create request
         [HttpPost]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> Create(CreateUnavailablePartRequestDto dto)
         {
             var request = await _service.CreateAsync(dto);

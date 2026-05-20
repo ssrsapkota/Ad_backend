@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Partpurja.Application.DTOs.Part;
 using Partpurja.Application.Interface.IServices;
@@ -6,6 +7,7 @@ namespace Partpurja_Management_system.Controllers
 {
     [ApiController]
     [Route("api/parts")]
+    [Authorize]
     public class PartsController : ControllerBase
     {
         private readonly IPartService _service;
@@ -16,9 +18,11 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetAll() => Ok(await _service.GetAllAsync());
 
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetById(int id)
         {
             var part = await _service.GetByIdAsync(id);
@@ -27,6 +31,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] CreatePartDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -43,6 +48,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdatePartDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -53,6 +59,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _service.DeleteAsync(id);

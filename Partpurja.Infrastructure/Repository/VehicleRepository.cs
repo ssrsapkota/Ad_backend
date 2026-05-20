@@ -16,18 +16,19 @@ namespace Partpurja.Infrastructure.Repository
 
         public async Task<List<Vehicle>> GetAllAsync()
         {
-            return await _context.Vehicles.ToListAsync();
+            return await _context.Vehicles.Where(v => v.IsActive).ToListAsync();
         }
 
         public async Task<Vehicle?> GetByIdAsync(int id)
         {
-            return await _context.Vehicles.FindAsync(id);
+            var v = await _context.Vehicles.FindAsync(id);
+            return (v == null || !v.IsActive) ? null : v;
         }
 
         public async Task<List<Vehicle>> GetByCustomerIdAsync(int customerId)
         {
             return await _context.Vehicles
-                .Where(v => v.CustomerId == customerId)
+                .Where(v => v.CustomerId == customerId && v.IsActive)
                 .ToListAsync();
         }
 

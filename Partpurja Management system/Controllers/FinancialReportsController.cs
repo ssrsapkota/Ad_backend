@@ -5,6 +5,8 @@ using Partpurja.Application.Interface.IServices;
 namespace Partpurja.Api.Controllers
 {
     
+    
+    
     [ApiController]
     [Route("api/admin/[controller]")]
     public class FinancialReportsController : ControllerBase

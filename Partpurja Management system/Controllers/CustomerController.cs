@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Partpurja.Application.DTOs.Customer;
 using Partpurja.Application.Interface.IServices;
@@ -6,6 +7,7 @@ namespace Partpurja_Management_system.Controllers
 {
     [ApiController]
     [Route("api/customers")]
+    [Authorize]
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerService _service;
@@ -16,6 +18,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> GetAll()
         {
             var customers = await _service.GetAllAsync();
@@ -23,6 +26,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetById(int id)
         {
             var customer = await _service.GetByIdAsync(id);
@@ -31,6 +35,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet("by-user/{userId:int}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetByUserId(int userId)
         {
             var customer = await _service.GetByUserIdAsync(userId);
@@ -39,6 +44,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Create([FromBody] CreateCustomerDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -47,6 +53,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateCustomerDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -59,6 +66,7 @@ namespace Partpurja_Management_system.Controllers
         /// Staff-facing customer search by id, phone, name, or vehicle registration number.
         /// </summary>
         [HttpGet("search")]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Search([FromQuery] string q)
         {
             if (string.IsNullOrWhiteSpace(q))

@@ -11,11 +11,13 @@ namespace Partpurja.Infrastructure.Services
 
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly ITokenService _tokenService;
 
-        public AuthService(IUserRepository userRepository, IPasswordHasher passwordHasher)
+        public AuthService(IUserRepository userRepository, IPasswordHasher passwordHasher, ITokenService tokenService)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
+            _tokenService = tokenService;
         }
 
         public async Task<AuthResponseDto> RegisterCustomerAsync(RegisterDto dto)
@@ -73,7 +75,8 @@ namespace Partpurja.Infrastructure.Services
                 Username = created.Username,
                 Email = created.Email,
                 Role = role.Name,
-                Message = "Registration successful."
+                Message = "Registration successful.",
+                Token = _tokenService.GenerateToken(created.Username, role.Name)
             };
         }
 
@@ -98,7 +101,8 @@ namespace Partpurja.Infrastructure.Services
                 Username = user.Username,
                 Email = user.Email,
                 Role = user.Role?.Name ?? string.Empty,
-                Message = "Login successful."
+                Message = "Login successful.",
+                Token = _tokenService.GenerateToken(user.Username, user.Role?.Name ?? "Customer")
             };
         }
     }

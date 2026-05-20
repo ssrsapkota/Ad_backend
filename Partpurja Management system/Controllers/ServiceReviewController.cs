@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Partpurja.Application.DTOs.ServiceReview;
 using Partpurja.Application.Interface.IServices;
@@ -6,6 +7,7 @@ namespace Partpurja_Management_system.Controllers
 {
     [ApiController]
     [Route("api/service-reviews")]
+    [Authorize]
     public class ServiceReviewsController : ControllerBase
     {
         private readonly IServiceReviewService _service;
@@ -17,6 +19,7 @@ namespace Partpurja_Management_system.Controllers
 
         // Get all reviews
         [HttpGet]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> GetAll()
         {
             var reviews = await _service.GetAllAsync();
@@ -25,6 +28,7 @@ namespace Partpurja_Management_system.Controllers
 
         // Get reviews by customer
         [HttpGet("customer/{customerId}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetByCustomerId(int customerId)
         {
             var reviews = await _service.GetByCustomerIdAsync(customerId);
@@ -33,6 +37,7 @@ namespace Partpurja_Management_system.Controllers
 
         // Create review
         [HttpPost]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> Create(CreateServiceReviewDto dto)
         {
             var review = await _service.CreateAsync(dto);

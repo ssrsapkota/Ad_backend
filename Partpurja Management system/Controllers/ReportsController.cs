@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Partpurja.Application.Interface.IServices;
 
@@ -5,6 +6,7 @@ namespace Partpurja_Management_system.Controllers
 {
     [ApiController]
     [Route("api/reports")]
+    [Authorize]
     public class ReportsController : ControllerBase
     {
         private readonly IReportService _service;
@@ -15,6 +17,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet("daily")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Daily([FromQuery] DateTime? date)
         {
             var day = date ?? DateTime.UtcNow.Date;
@@ -22,6 +25,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet("monthly")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Monthly([FromQuery] int year, [FromQuery] int month)
         {
             if (year < 1 || month < 1 || month > 12)
@@ -40,6 +44,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet("yearly")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Yearly([FromQuery] int year)
         {
             if (year < 1) return BadRequest(new { message = "Provide a valid year." });
@@ -47,9 +52,11 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet("inventory")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Inventory() => Ok(await _service.GetInventoryReportAsync());
 
         [HttpGet("regular-customers")]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> RegularCustomers([FromQuery] int minPurchaseCount = 3)
         {
             try
@@ -63,6 +70,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet("high-spenders")]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> HighSpenders([FromQuery] int topN = 10)
         {
             try
@@ -76,6 +84,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet("pending-credits")]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> PendingCredits() => Ok(await _service.GetPendingCreditsAsync());
     }
 }

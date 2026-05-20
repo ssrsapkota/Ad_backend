@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Partpurja.Application.DTOs.Vehicle;
 using Partpurja.Application.Interface.IServices;
@@ -6,6 +7,7 @@ namespace Partpurja_Management_system.Controllers
 {
     [ApiController]
     [Route("api/vehicles")]
+    [Authorize]
     public class VehiclesController : ControllerBase
     {
         private readonly IVehicleService _service;
@@ -16,12 +18,14 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _service.GetAllAsync());
         }
 
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetById(int id)
         {
             var vehicle = await _service.GetByIdAsync(id);
@@ -30,12 +34,14 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpGet("customer/{customerId:int}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetByCustomerId(int customerId)
         {
             return Ok(await _service.GetByCustomerIdAsync(customerId));
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> Create([FromBody] CreateVehicleDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -44,6 +50,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateVehicleDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -53,6 +60,7 @@ namespace Partpurja_Management_system.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _service.DeleteAsync(id);

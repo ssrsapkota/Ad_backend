@@ -12,6 +12,10 @@ namespace Partpurja.Application.DTOs.ServiceReview
 
         public string Comment { get; set; } = string.Empty;
 
+        public string Comments => Comment;
+
+        public string Status => "Published";
+
         public DateTime CreatedAt { get; set; }
     }
 }
