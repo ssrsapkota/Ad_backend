@@ -1,0 +1,5 @@
+Feature 08 API Testing Notes
+
+Performed backend API testing for customer history and vehicle information endpoints using Postman.
+Validated customer search routes and verified HTTP validation responses.
+Testing screenshots and response evidence were collected for documentation purposes.
